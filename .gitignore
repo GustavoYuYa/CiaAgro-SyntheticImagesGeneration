@@ -1,0 +1,10 @@
+# Outputs
+outputs/
+
+# Checkpoints
+checkpoints/
+*.pt
+
+# Enviroment
+__pycache__/
+.ipynb_checkpoints/

@@ -1,0 +1,28 @@
+seed: 42
+
+model: 
+  dim: 64
+  dim_mults: [1, 2, 4, 8]
+  flash_attn: false
+
+diffusion:
+  image_size: 128
+  timesteps: 1000
+
+training:
+  batch_size: 16
+  lr: 8e-5
+  train_num_steps: 30000
+  gradient_accumulate_every: 2
+  ema_decay: 0.995
+  amp: true 
+  calculate_fid: false
+  save_and_sample_every: 5000
+
+experiments: 
+  classes: 
+    - mildio
+    - oidio
+    - phakopsora
+
+dataset_sizes: [100, 300, 500, 700, 1000, 1300]
