@@ -18,5 +18,3 @@ def set_seed(seed=42, speed_mode=True):
     else:
         torch.backends.cudnn.deterministic = True
         torch.backends.cudnn.benchmark = False
-
-set_seed(42, speed_mode=True)

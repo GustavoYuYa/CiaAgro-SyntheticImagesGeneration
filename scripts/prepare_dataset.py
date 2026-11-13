@@ -2,7 +2,9 @@ from utils.seed import set_seed
 
 from pathlib import Path
 
+import os
 import argparse
+import random
 
 set_seed(42)
 
@@ -12,21 +14,17 @@ def main():
         description="Prepare dataset"
     )
 
-    parser.add_argument("--class", choices=["mildio", "oidio", "phakopsora"], required=True)
+    # parser.add_argument("--class", choices=["mildio", "oidio", "phakopsora"], required=True)
     parser.add_argument("--dataset-root", type=Path, required=True)
-    parser.add_argument("--splits-path", type=Path, default=Path("C:/Analise_Esporos_2026/Difusao_ModeloAnterior/Dataset_Splits"))
+    parser.add_argument("--splits-path", type=Path, required=True)
     args = parser.parse_args()
 
-    base_dataset = r"C:\Analise_Esporos_2026\Dataset_Recortado_4_classes"
-
-    base_splits = r"C:\Analise_Esporos_2026\Difusao_ModeloAnterior\Dataset_Splits"
-    os.makedirs(base_splits, exist_ok=True)
+    os.makedirs(args.splits_path, exist_ok=True)
 
     classes = [
-        "mildio",
-        "oidio",
-        "puccinias",
-        "phakopsora"
+        "Peronospora_manshurica",
+        "Microsphaera_diffusa",
+        "Phakopsora_pachyrhizi"
     ]
 
     nums = [100, 300, 500, 700, 1000, 1300]
@@ -39,22 +37,26 @@ def main():
     for classe in classes:
 
         dataset_folder = os.path.join(
-            base_dataset,
+            args.dataset_root,
             classe
         )
 
         split_folder = os.path.join(
-            base_splits,
+            args.splits_path,
             classe
         )
 
         os.makedirs(split_folder, exist_ok=True)
 
-        all_images = [
-            filename
-            for filename in os.listdir(dataset_folder)
-            if filename.lower().endswith(extensions)
-        ]
+        all_images = []
+
+        for subclass in os.listdir(dataset_folder):
+
+            dataset_subfolder = os.path.join(dataset_folder, subclass)
+
+            for file in os.listdir(dataset_subfolder):
+
+                all_images.append(os.path.join(dataset_subfolder, file))
 
         all_images.sort()
 
@@ -98,3 +100,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+    
